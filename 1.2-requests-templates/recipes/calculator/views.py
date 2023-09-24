@@ -23,18 +23,13 @@ DATA = {
 
 def hello(request, recipe):
     if recipe in [key for key in DATA]:
+        servings = int(request.GET.get('servings', 1))
         list = []
         for key, value in DATA[recipe].items():
-            list.append(f'{key}: {float(value)}')
+            list.append(f'{key}: {float("{0:.1f}".format(servings * float(value)))}')
         context = {
             'data': list
         }
         return render(request, 'hello.html', context)
-    # яйца, шт: 2
-    # молоко, л: 0.1
-    # соль, ч.л.: 0.5
     else:
         return HttpResponse('Рецепт не найден!')
-# {% for x in data % }
-# <li>{{ x }}</li>
-# {% endfor %}
